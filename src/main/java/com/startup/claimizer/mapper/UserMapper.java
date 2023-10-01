@@ -6,7 +6,7 @@ import com.waleedreda.core.mapper.BaseMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegisterUserMapper extends BaseMapper<UserDto, UserEntity> {
+public class UserMapper extends BaseMapper<UserDto, UserEntity> {
 
     @Override
     public Class<UserDto> getDtoClass() {
