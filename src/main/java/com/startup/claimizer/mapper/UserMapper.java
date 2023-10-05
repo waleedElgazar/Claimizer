@@ -18,13 +18,4 @@ public class UserMapper extends BaseMapper<UserDto, UserEntity> {
         return UserEntity.class;
     }
 
-    @Override
-    public UserDto ConvertToDto(UserEntity entity) {
-        return super.ConvertToDto(entity);
-    }
-
-    @Override
-    public UserEntity ConvertToEntity(UserDto dto) {
-        return super.ConvertToEntity(dto);
-    }
 }

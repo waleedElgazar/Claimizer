@@ -19,12 +19,12 @@ public abstract class UserCommonService {
         return userDto;
     }
 
-    public static UserCriteria prepareUserCriteria (Map<String,String> userDetails){
+    public static UserCriteria prepareUserCriteria (UserDto userDetails){
         UserCriteria userCriteria = new UserCriteria();
 //        userCriteria.setPassword(CommonService.encrypt(userDetails.get("password")));
-        userCriteria.setEmail(userDetails.get("email"));
-        userCriteria.setName(userDetails.get("name"));
-        userCriteria.setMobile(userDetails.get("mobile"));
+        userCriteria.setEmail(userDetails.getEmail());
+        userCriteria.setName(userDetails.getName());
+        userCriteria.setMobile(userDetails.getMobile());
         return userCriteria;
     }
 }
