@@ -8,13 +8,14 @@ import com.startup.claimizer.entity.UserEntity;
 import com.startup.claimizer.mapper.UserMapper;
 import com.startup.claimizer.repo.UserRepo;
 import com.startup.claimizer.specification.UserSpecificationBuilder;
+import com.waleedreda.core.common.AppResponse;
+import com.waleedreda.core.common.AppResponseUtil;
+import com.waleedreda.core.common.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 @Getter
@@ -28,25 +29,25 @@ public class UserServiceImpl implements UserService {
     UserSpecificationBuilder userSpecificationBuilder;
 
     @Override
-    public UserDto saveUser(Map<String, String> userDetails) {
-        UserDto userDto = UserCommonService.prepareUserDto(userDetails);
-        UserEntity userEntity = getUserMapper().ConvertToEntity(userDto);
-        UserEntity savedEntity = getUserRepo().save(userEntity);
-        return getUserMapper().ConvertToDto(savedEntity);
+    public AppResponse<UserDto> saveUser(UserDto userDetails) {
+        try {
+            userDetails.setPassword(CommonService.encrypt(userDetails.getPassword()));
+            UserEntity userEntity = getUserMapper().ConvertToEntity(userDetails);
+            UserEntity savedEntity = getUserRepo().save(userEntity);
+            savedEntity.setPassword(userEntity.getPassword());
+            return AppResponseUtil.buildSuccessResponse(getUserMapper().ConvertToDto(savedEntity));
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            return AppResponseUtil.buildFailedResponse(ErrorCode.DUPLICATE_DATA, "User with the following email " + userDetails.getEmail() + " already exists ");
+        } catch (Exception exception) {
+            return AppResponseUtil.buildFailedResponse(ErrorCode.GENERAL, "General error due to " + exception.getMessage());
+        }
     }
 
+
     @Override
-    public UserDto loginUser(Map<String, String> userDetails) {
+    public AppResponse<UserDto> updateUser(UserDto userDetails) {
         UserCriteria userCriteria = UserCommonService.prepareUserCriteria(userDetails);
-        Specification<UserEntity> searchSpecification = getUserSpecificationBuilder().getSearchSpecification(userCriteria);
-        UserEntity userEntity = getUserRepo().findAll(searchSpecification).get(0);
-        UserDto userDto = getUserMapper().ConvertToDto(userEntity);
-        if (null != userDto) {
-            String password = CommonService.encrypt(userDetails.get("password"));
-            if (userDto.getPassword().equals(password)) {
-                return userDto;
-            }
-        }
+
         return null;
     }
 }
