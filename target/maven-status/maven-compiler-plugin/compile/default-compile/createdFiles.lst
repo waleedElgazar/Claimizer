@@ -1,0 +1,16 @@
+com\startup\claimizer\dto\UserDto.class
+com\startup\claimizer\config\ApplicationConfiguration.class
+com\startup\claimizer\service\AuthService.class
+com\startup\claimizer\controller\user\AuthenticationController.class
+com\startup\claimizer\specification\UserSpecificationBuilder.class
+com\startup\claimizer\common\CommonService.class
+com\startup\claimizer\common\UserCommonService.class
+com\startup\claimizer\mapper\UserMapper.class
+com\startup\claimizer\service\AuthServiceImpl.class
+com\startup\claimizer\entity\UserEntity.class
+com\startup\claimizer\criteria\UserCriteria.class
+com\startup\claimizer\repo\UserRepo.class
+com\startup\claimizer\ClaimizerApplication.class
+com\startup\claimizer\controller\user\UserController.class
+com\startup\claimizer\service\UserServiceImpl.class
+com\startup\claimizer\service\UserService.class
