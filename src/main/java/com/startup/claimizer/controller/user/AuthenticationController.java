@@ -6,10 +6,7 @@ import com.waleedreda.core.common.AppResponse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Getter
 @Setter
@@ -18,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     @Autowired
     AuthServiceImpl authService;
+
+    @GetMapping("/")
+    public String findAllCustomers(){
+        return "HELLO THAT IS TEST API";
+    }
 
     @PostMapping("/login")
     public AppResponse<UserDto> loginUser(@RequestBody UserDto userDetails) {
