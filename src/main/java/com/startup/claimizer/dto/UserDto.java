@@ -16,4 +16,15 @@ public class UserDto extends BaseDto {
     private String password;
     private String email;
     private String mobile;
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                '}';
+    }
 }
