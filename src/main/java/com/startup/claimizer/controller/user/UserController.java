@@ -1,7 +1,7 @@
 package com.startup.claimizer.controller.user;
 
 import com.startup.claimizer.dto.UserDto;
-import com.startup.claimizer.service.UserService;
+import com.startup.claimizer.service.user.UserService;
 import com.waleedreda.core.common.AppResponse;
 import lombok.Getter;
 import lombok.Setter;

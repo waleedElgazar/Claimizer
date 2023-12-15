@@ -1,4 +1,4 @@
-package com.startup.claimizer.service;
+package com.startup.claimizer.service.user;
 
 import com.startup.claimizer.common.CommonService;
 import com.startup.claimizer.common.UserCommonService;
