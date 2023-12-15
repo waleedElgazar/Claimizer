@@ -5,6 +5,8 @@ import com.startup.claimizer.common.UserCommonService;
 import com.startup.claimizer.criteria.UserCriteria;
 import com.startup.claimizer.dto.UserDto;
 import com.startup.claimizer.entity.UserEntity;
+import com.startup.claimizer.exception.DatabaseException;
+import com.startup.claimizer.exception.GeneralException;
 import com.startup.claimizer.mapper.UserMapper;
 import com.startup.claimizer.repo.UserRepo;
 import com.startup.claimizer.specification.UserSpecificationBuilder;
@@ -37,9 +39,10 @@ public class UserServiceImpl implements UserService {
             savedEntity.setPassword(userEntity.getPassword());
             return AppResponseUtil.buildSuccessResponse(getUserMapper().ConvertToDto(savedEntity));
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
-            return AppResponseUtil.buildFailedResponse(ErrorCode.DUPLICATE_DATA, "User with the following email " + userDetails.getEmail() + " already exists ");
+            return AppResponseUtil.buildFailedResponse(ErrorCode.DUPLICATE_DATA,
+                    new DatabaseException("This unit with the following data " + userDetails.toString() + " is already existed ").getMessage());
         } catch (Exception exception) {
-            return AppResponseUtil.buildFailedResponse(ErrorCode.GENERAL, "General error due to " + exception.getMessage());
+            return AppResponseUtil.buildFailedResponse(ErrorCode.GENERAL, new GeneralException("General error due to " + exception.getMessage()).getMessage());
         }
     }
 

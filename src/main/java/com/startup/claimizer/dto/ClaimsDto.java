@@ -24,4 +24,19 @@ public class ClaimsDto extends BaseDto {
     private Date availableDate;
     private Date availableTime;
     private File file;
+
+    @Override
+    public String toString() {
+        return "ClaimsDto{" +
+                "id=" + id +
+                ", unitId=" + unitId +
+                ", categoryId=" + categoryId +
+                ", subCategoryId=" + subCategoryId +
+                ", claimTypeId=" + claimTypeId +
+                ", description='" + description + '\'' +
+                ", availableDate=" + availableDate +
+                ", availableTime=" + availableTime +
+                ", file=" + file +
+                '}';
+    }
 }

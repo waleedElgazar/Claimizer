@@ -22,4 +22,16 @@ public class UnitDto extends BaseDto {
     private Date startDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date endDate;
+
+    @Override
+    public String
+    toString() {
+        return "UnitDto{" +
+                "id=" + id +
+                ", unitCode='" + unitCode + '\'' +
+                ", contractNumber='" + contractNumber + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
