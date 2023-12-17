@@ -15,4 +15,14 @@ public class UserCriteria extends BaseCriteriaFilter {
     private String email;
     private String mobile;
     private String password;
+
+    @Override
+    public String toString() {
+        return "UserCriteria{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

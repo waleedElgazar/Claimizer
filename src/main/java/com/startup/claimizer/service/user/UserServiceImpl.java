@@ -1,7 +1,6 @@
 package com.startup.claimizer.service.user;
 
 import com.startup.claimizer.common.CommonService;
-import com.startup.claimizer.common.UserCommonService;
 import com.startup.claimizer.criteria.UserCriteria;
 import com.startup.claimizer.dto.UserDto;
 import com.startup.claimizer.entity.UserEntity;
@@ -17,7 +16,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Getter
@@ -33,10 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppResponse<UserDto> saveUser(UserDto userDetails) {
         try {
-            userDetails.setPassword(CommonService.encrypt(userDetails.getPassword()));
             UserEntity userEntity = getUserMapper().ConvertToEntity(userDetails);
+            userEntity.setPassword(CommonService.encrypt(userDetails.getPassword()));
             UserEntity savedEntity = getUserRepo().save(userEntity);
-            savedEntity.setPassword(userEntity.getPassword());
+            savedEntity.setPassword(userDetails.getPassword());
             return AppResponseUtil.buildSuccessResponse(getUserMapper().ConvertToDto(savedEntity));
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             return AppResponseUtil.buildFailedResponse(ErrorCode.DUPLICATE_DATA,
@@ -48,9 +50,29 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public AppResponse<UserDto> updateUser(UserDto userDetails) {
-        UserCriteria userCriteria = UserCommonService.prepareUserCriteria(userDetails);
+    public AppResponse<UserDto> updateUser(UserCriteria userCriteria) {
+        Specification<UserEntity> searchSpecification = getUserSpecificationBuilder().getSearchSpecification(userCriteria);
+        UserEntity savedUser = getUserRepo().findAll(searchSpecification).get(0);
+        if (null == savedUser) {
+            return  AppResponseUtil.buildFailedResponse(ErrorCode.NOT_FOUND, new DatabaseException("The user with this Criteria " + userCriteria.toString() + " not found").getMessage());
+        } else {
+            UserEntity updatedUserEntity = prepareUpdateUserEntity(savedUser, userCriteria);
+            getUserRepo().save(updatedUserEntity);
+            updatedUserEntity.setPassword(userCriteria.getPassword());
+            return AppResponseUtil.buildSuccessResponse(getUserMapper().ConvertToDto(updatedUserEntity));
+        }
+    }
 
-        return null;
+    private UserEntity prepareUpdateUserEntity(UserEntity userEntity, UserCriteria userCriteria) {
+        if (null != userCriteria.getPassword()){
+            userEntity.setPassword(CommonService.encrypt(userCriteria.getPassword()));
+        } else if (null != userCriteria.getMobile()) {
+            userEntity.setEmail(userCriteria.getEmail());
+        } else if (null != userCriteria.getName()) {
+            userEntity.setName(userCriteria.getName());
+        } else if (null != userCriteria.getEmail()) {
+            userEntity.setMobile(userCriteria.getMobile());
+        }
+        return userEntity;
     }
 }

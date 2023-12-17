@@ -1,5 +1,6 @@
 package com.startup.claimizer.controller.user;
 
+import com.startup.claimizer.criteria.UserCriteria;
 import com.startup.claimizer.dto.UserDto;
 import com.startup.claimizer.service.user.UserService;
 import com.waleedreda.core.common.AppResponse;
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public AppResponse<UserDto> updateUser(@RequestBody UserDto userDetails){
-        return getUserService().updateUser(userDetails);
+    public AppResponse<UserDto> updateUser(@RequestBody UserCriteria userCriteria){
+        return getUserService().updateUser(userCriteria);
     }
 }
