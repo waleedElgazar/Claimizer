@@ -10,6 +10,7 @@ import com.startup.claimizer.specification.UserSpecificationBuilder;
 import com.waleedreda.core.common.AppResponse;
 import com.waleedreda.core.common.AppResponseUtil;
 import com.waleedreda.core.common.ErrorCode;
+import com.waleedreda.core.common.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -49,9 +50,8 @@ public class AuthServiceImpl implements AuthService {
             String password = CommonService.encrypt(userDetails.getPassword());
             if (userDto.getPassword().equals(password)) {
                 userDto.setPassword(userDetails.getPassword());
-                AppResponse<UserDto> userDtoAppResponse = AppResponseUtil.buildSuccessResponse(userDto);
-                logger.info("Login Request the Response body is " + userDtoAppResponse.toString());
-                return userDtoAppResponse;
+                logger.info("Login Request the Response body is " + userDto.toString());
+                return AppResponseUtil.buildSuccessResponse(userDto);
             } else {
                 logger.error("Login Response the Response body is " + ErrorCode.INVALID_DATA.toString());
                 return AppResponseUtil.buildFailedResponse(ErrorCode.INVALID_DATA, "Invalid Password");

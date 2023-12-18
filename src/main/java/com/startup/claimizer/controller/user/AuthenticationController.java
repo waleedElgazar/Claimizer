@@ -16,11 +16,6 @@ public class AuthenticationController {
     @Autowired
     AuthServiceImpl authService;
 
-    @GetMapping("/")
-    public String findAllCustomers(){
-        return "HELLO THAT IS TEST API";
-    }
-
     @PostMapping("/login")
     public AppResponse<UserDto> loginUser(@RequestBody UserDto userDetails) {
         return getAuthService().loginUser(userDetails);
