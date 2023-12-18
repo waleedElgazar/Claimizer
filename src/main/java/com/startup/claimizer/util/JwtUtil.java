@@ -3,6 +3,7 @@ package com.startup.claimizer.util;
 import com.startup.claimizer.dto.UserDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "CLAMIZERCLAMIZERCLAMIZERCLAMIZERCLAMIZERCLAMIZER";
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
     private final long ACCESS_TOKEN_VALIDITY = 60 * 60 * 1000;
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
