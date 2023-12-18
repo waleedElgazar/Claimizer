@@ -7,6 +7,7 @@ import com.startup.claimizer.entity.UserEntity;
 import com.startup.claimizer.mapper.UserMapper;
 import com.startup.claimizer.repo.UserRepo;
 import com.startup.claimizer.specification.UserSpecificationBuilder;
+import com.startup.claimizer.util.JwtUtil;
 import com.waleedreda.core.common.AppResponse;
 import com.waleedreda.core.common.AppResponseUtil;
 import com.waleedreda.core.common.ErrorCode;
@@ -31,6 +32,8 @@ public class AuthServiceImpl implements AuthService {
     UserRepo userRepo;
     @Autowired
     UserSpecificationBuilder userSpecificationBuilder;
+    @Autowired
+    JwtUtil jwtUtil;
 
     Logger logger = LogManager.getLogger(AuthServiceImpl.class);
 
@@ -51,6 +54,8 @@ public class AuthServiceImpl implements AuthService {
             if (userDto.getPassword().equals(password)) {
                 userDto.setPassword(userDetails.getPassword());
                 logger.info("Login Request the Response body is " + userDto.toString());
+                String token = getJwtUtil().createToken(userDto);
+                userDto.setToken(token);
                 return AppResponseUtil.buildSuccessResponse(userDto);
             } else {
                 logger.error("Login Response the Response body is " + ErrorCode.INVALID_DATA.toString());

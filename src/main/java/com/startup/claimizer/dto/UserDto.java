@@ -21,6 +21,7 @@ public class UserDto extends BaseDto {
     private String imageUrl;
     private LanguageEnum locale;
     private ThemeEnum theme;
+    private String token;
 
     @Override
     public String toString() {
