@@ -32,8 +32,8 @@ public class AuthServiceImpl implements AuthService {
     UserRepo userRepo;
     @Autowired
     UserSpecificationBuilder userSpecificationBuilder;
-    @Autowired
-    JwtUtil jwtUtil;
+//    @Autowired
+//    JwtUtil jwtUtil;
 
     Logger logger = LogManager.getLogger(AuthServiceImpl.class);
 
@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             if (userDto.getPassword().equals(password)) {
                 userDto.setPassword(userDetails.getPassword());
                 logger.info("Login Request the Response body is " + userDto.toString());
-                String token = getJwtUtil().createToken(userDto);
+                String token = JwtUtil.createToken(userDto);
                 userDto.setToken(token);
                 return AppResponseUtil.buildSuccessResponse(userDto);
             } else {

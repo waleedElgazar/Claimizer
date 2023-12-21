@@ -2,6 +2,7 @@ package com.startup.claimizer.controller.user;
 
 import com.startup.claimizer.criteria.UserCriteria;
 import com.startup.claimizer.dto.UserDto;
+import com.startup.claimizer.dto.UserSessionData;
 import com.startup.claimizer.service.AuthServiceImpl;
 import com.startup.claimizer.service.user.UserService;
 import com.startup.claimizer.util.JwtUtil;
@@ -21,13 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     UserService userService;
-    @Autowired
-    AuthServiceImpl authService;
-
-    @PostMapping("/login")
-    public AppResponse<UserDto> loginUser(@RequestBody UserDto userDetails) {
-        return getAuthService().loginUser(userDetails);
-    }
 
     @PostMapping("/register")
     public AppResponse<UserDto> registerUser(@RequestBody UserDto userDetails) {
@@ -36,6 +30,7 @@ public class UserController {
 
     @PostMapping("/update")
     public AppResponse<UserDto> updateUser(@RequestBody UserCriteria userCriteria) {
+//        UserSessionData.
         return getUserService().updateUser(userCriteria);
     }
 }
