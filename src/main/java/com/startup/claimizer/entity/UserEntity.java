@@ -23,8 +23,8 @@ public class UserEntity extends BaseEntity {
     private String name;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "EMAIL",unique = true)
+    @Column(name = "EMAIL", unique = true)
     private String email;
-    @Column(name = "MOBILE")
+    @Column(name = "MOBILE", unique = true)
     private String mobile;
 }

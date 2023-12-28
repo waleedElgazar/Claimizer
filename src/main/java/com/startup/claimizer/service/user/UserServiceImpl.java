@@ -3,12 +3,14 @@ package com.startup.claimizer.service.user;
 import com.startup.claimizer.common.CommonService;
 import com.startup.claimizer.criteria.UserCriteria;
 import com.startup.claimizer.dto.UserDto;
+import com.startup.claimizer.dto.UserSessionData;
 import com.startup.claimizer.entity.UserEntity;
 import com.startup.claimizer.exception.DatabaseException;
 import com.startup.claimizer.exception.GeneralException;
 import com.startup.claimizer.mapper.UserMapper;
 import com.startup.claimizer.repo.UserRepo;
 import com.startup.claimizer.specification.UserSpecificationBuilder;
+import com.startup.claimizer.util.UserSessionDataBuilder;
 import com.waleedreda.core.common.AppResponse;
 import com.waleedreda.core.common.AppResponseUtil;
 import com.waleedreda.core.common.ErrorCode;
@@ -50,29 +52,42 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public AppResponse<UserDto> updateUser(UserCriteria userCriteria) {
+    public AppResponse<UserDto> updateUser(UserDto userDto) {
+        UserCriteria userCriteria = prepareUserCriteria();
         Specification<UserEntity> searchSpecification = getUserSpecificationBuilder().getSearchSpecification(userCriteria);
         UserEntity savedUser = getUserRepo().findAll(searchSpecification).get(0);
         if (null == savedUser) {
-            return  AppResponseUtil.buildFailedResponse(ErrorCode.NOT_FOUND, new DatabaseException("The user with this Criteria " + userCriteria.toString() + " not found").getMessage());
+            return AppResponseUtil.buildFailedResponse(ErrorCode.NOT_FOUND, new DatabaseException("The user with this Criteria " + userCriteria.toString() + " not found").getMessage());
         } else {
-            UserEntity updatedUserEntity = prepareUpdateUserEntity(savedUser, userCriteria);
+            UserEntity updatedUserEntity = prepareUpdateUserEntity(savedUser, userDto);
             getUserRepo().save(updatedUserEntity);
-            updatedUserEntity.setPassword(userCriteria.getPassword());
+            updatedUserEntity.setPassword(userDto.getPassword());
             return AppResponseUtil.buildSuccessResponse(getUserMapper().ConvertToDto(updatedUserEntity));
         }
     }
 
-    private UserEntity prepareUpdateUserEntity(UserEntity userEntity, UserCriteria userCriteria) {
-        if (null != userCriteria.getPassword()){
-            userEntity.setPassword(CommonService.encrypt(userCriteria.getPassword()));
-        } else if (null != userCriteria.getMobile()) {
-            userEntity.setEmail(userCriteria.getEmail());
-        } else if (null != userCriteria.getName()) {
-            userEntity.setName(userCriteria.getName());
-        } else if (null != userCriteria.getEmail()) {
-            userEntity.setMobile(userCriteria.getMobile());
+    private UserEntity prepareUpdateUserEntity(UserEntity userEntity, UserDto userDto) {
+        if (null != userDto.getPassword()) {
+            userEntity.setPassword(CommonService.encrypt(userDto.getPassword()));
+        }
+        if (null != userDto.getEmail()) {
+            userEntity.setEmail(userDto.getEmail());
+        }
+        if (null != userDto.getName()) {
+            userEntity.setName(userDto.getName());
+        }
+        if (null != userDto.getMobile()) {
+            userEntity.setMobile(userDto.getMobile());
         }
         return userEntity;
+    }
+
+    private UserCriteria prepareUserCriteria() {
+        UserSessionData userDataSession = UserSessionDataBuilder.getUserDataSession();
+        UserCriteria userCriteria = new UserCriteria();
+        userCriteria.setEmail(userDataSession.getEmail());
+        userCriteria.setName(userDataSession.getName());
+        userCriteria.setMobile(userDataSession.getMobile());
+        return userCriteria;
     }
 }

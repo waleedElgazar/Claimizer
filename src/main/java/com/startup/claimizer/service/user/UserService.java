@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     public AppResponse<UserDto> saveUser(UserDto userDetails);
 
-    public AppResponse<UserDto> updateUser(UserCriteria userCriteria);
+    public AppResponse<UserDto> updateUser(UserDto userDto);
 
 }

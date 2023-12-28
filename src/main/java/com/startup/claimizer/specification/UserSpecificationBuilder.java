@@ -13,6 +13,8 @@ public class UserSpecificationBuilder extends BaseSpecificationBuilder<UserEntit
     public Specification<UserEntity> getSearchSpecification(UserCriteria criteriaFilter) {
         Specification<UserEntity> userName =
                 this.buildSpecification("email",criteriaFilter.getEmail(), CriteriaOperatorEnum.EQ);
-        return userName;
+        Specification<UserEntity> mobileNumber =
+                this.buildSpecification("mobile",criteriaFilter.getMobile(), CriteriaOperatorEnum.EQ);
+        return userName.or(mobileNumber);
     }
 }

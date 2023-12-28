@@ -4,6 +4,7 @@ package com.startup.claimizer.filter;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.startup.claimizer.dto.UserSessionData;
 import com.startup.claimizer.util.JwtUtil;
+import com.startup.claimizer.util.UserSessionDataBuilder;
 import com.waleedreda.core.common.AppResponseUtil;
 import com.waleedreda.core.common.ErrorCode;
 import jakarta.servlet.*;
@@ -37,7 +38,7 @@ public class AuthenticationFilter implements Filter {
             try {
                 String authorizationToken = httpRequest.getHeader("Authorization").substring(7);
                 JwtUtil.validateToken(authorizationToken);
-                userSessionData = JwtUtil.extractUserData(authorizationToken);
+                UserSessionDataBuilder.setUserData(JwtUtil.extractUserData(authorizationToken));
                 chain.doFilter(httpRequest, response);
             } catch (TokenExpiredException e) {
                 String errorResponse = AppResponseUtil.buildFailedResponse(ErrorCode.GENERAL, e.getMessage()).toJsonString();
