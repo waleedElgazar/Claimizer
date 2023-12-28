@@ -18,7 +18,7 @@ import java.util.function.Function;
 public abstract class JwtUtil {
     @Value("${jwt.secret}")
     private static final String SECRET_KEY = "ClaimizerClaimizerClaimizerClaimizerClaimizer";
-    private static final long ACCESS_TOKEN_VALIDITY = 60 * 1000;
+    private static final long ACCESS_TOKEN_VALIDITY = 15 * 60 * 1000;
     private static final String TOKEN_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
 
