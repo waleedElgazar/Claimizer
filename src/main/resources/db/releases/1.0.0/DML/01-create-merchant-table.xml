@@ -1,0 +1,13 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-merchant-table" author="Waleed.Reda">
+        <sql>
+            INSERT INTO CLAIMIZER.APPLICATION_CONFIGURATION
+                (ID, PARAMETER_KEY, PARAMETER_VALUE)
+            VALUES(0, '', '');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
