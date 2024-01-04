@@ -4,7 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-<!--    <includeAll path="releases" relativeToChangelogFile="true"/>-->
-    <include file="db/releases/1.0.0/DML/01-create-merchant-table.xml"/>
+    <includeAll path="releases/" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
