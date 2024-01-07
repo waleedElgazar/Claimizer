@@ -5,9 +5,9 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="insert_into_application_configuration" author="Waleed.Reda">
         <sql>
-            INSERT INTO APPLICATION_CONFIGURATION
-                (ID, PARAMETER_KEY, PARAMETER_VALUE)
-            VALUES (1, '1', '1');
+            INSERT INTO APPLICATION_CONFIGURATION_ENTITY
+                (ID, GROUP_NAME, PARAMETER_KEY, PARAMETER_VALUE)
+            VALUES (0, '1', '1', '1');
         </sql>
     </changeSet>
 </databaseChangeLog>
